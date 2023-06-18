@@ -4,6 +4,8 @@ const messageController = require('../controllers/messageController')
 const messageRouter = new Comment()
 
 
-messageRouter.get(EndPoints.Get_Message, messageController.getMessages)
+messageRouter.get("/", messageController.getMessages)
+messageRouter.post("/", messageController.sendMessages)
+messageRouter.delete("/", messageController.deleteMessage)
 
 module.exports = messageRouter

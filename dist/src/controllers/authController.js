@@ -10,8 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supabase_1 = require("../supabase/supabase");
+const fetchUsersName_1 = require("../utils/fetch/fetchUsersName");
+const fetchUserMessages_1 = require("../utils/fetch/fetchUserMessages");
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 class AuthController {
     registration(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -45,23 +46,26 @@ class AuthController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email, password } = req.body;
-                const { data: user, error } = yield supabase_1.supabase
+                const { data: userData, error } = yield supabase_1.supabase
                     .from('users')
                     .select('*')
                     .eq('email', email)
                     .single();
-                if (error) {
-                    throw error;
-                }
-                if (!user) {
+                if (error || !userData.id) {
                     return res.status(401).send({ code: 401, message: 'Неправильный email или пароль' });
                 }
-                const isPasswordValid = yield bcrypt.compare(password, user.hashed_password);
+                const isPasswordValid = yield bcrypt.compare(password, userData.hashed_password);
                 if (!isPasswordValid) {
                     return res.status(401).send({ code: 401, message: 'Неправильный email или пароль' });
                 }
-                res.cookie('user_password', user.hashed_password, { httpOnly: true });
-                return res.status(200).send({ code: 200, message: 'Успешная аутентификация' });
+                res.cookie('user_password', userData.hashed_password, { httpOnly: true });
+                const { name, id, avatar } = userData;
+                const messages = yield (0, fetchUserMessages_1.fetchUserMessages)(id);
+                const users = yield (0, fetchUsersName_1.fetchUsersName)();
+                return res.status(200).send({
+                    message: 'Успешная аутентификация',
+                    data: { userData: { name, id, avatar }, messages, users }
+                });
             }
             catch (e) {
                 console.error(e);
@@ -76,18 +80,23 @@ class AuthController {
                 if (!password) {
                     return res.status(401).json({ message: 'Не авторизован в токене', statusCode: 401 });
                 }
-                const { data: user, error } = yield supabase_1.supabase
+                const { data: userData, error } = yield supabase_1.supabase
                     .from('users')
-                    .select('name, email')
+                    .select('name, email, id, avatar')
                     .eq('hashed_password', password)
                     .single();
                 if (error) {
                     throw error;
                 }
-                if (!user) {
+                if (!userData) {
                     return res.status(404).json({ message: 'Пользователь не найден', statusCode: 404 });
                 }
-                return res.status(200).json({ message: 'Успешно получен текущий пользователь', user });
+                const messages = yield (0, fetchUserMessages_1.fetchUserMessages)(userData.id);
+                const users = yield (0, fetchUsersName_1.fetchUsersName)();
+                return res.status(200).json({
+                    message: 'Успешно',
+                    data: { userData, messages, users }
+                });
             }
             catch (e) {
                 console.error(e);

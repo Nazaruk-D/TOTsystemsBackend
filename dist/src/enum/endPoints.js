@@ -7,5 +7,5 @@ var EndPoints;
     EndPoints["Registration"] = "/registration";
     EndPoints["Me"] = "/me";
     EndPoints["Logout"] = "/logout";
-    EndPoints["Get_Message"] = "/get-message";
+    EndPoints["Get_Message"] = "/";
 })(EndPoints = exports.EndPoints || (exports.EndPoints = {}));
