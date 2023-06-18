@@ -5,5 +5,7 @@ var EndPoints;
 (function (EndPoints) {
     EndPoints["Login"] = "/login";
     EndPoints["Registration"] = "/registration";
+    EndPoints["Me"] = "/me";
+    EndPoints["Logout"] = "/logout";
     EndPoints["Get_Message"] = "/get-message";
 })(EndPoints = exports.EndPoints || (exports.EndPoints = {}));
