@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const endPoints_1 = require("../enum/endPoints");
 const Comment = require('express');
 const messageController = require('../controllers/messageController');
 const messageRouter = new Comment();
 messageRouter.get("/:userEmail", messageController.getMessages);
 messageRouter.post("/", messageController.sendMessages);
 messageRouter.put("/", messageController.changeFolderMessages);
-messageRouter.delete("/", messageController.deleteMessage);
+messageRouter.put(endPoints_1.EndPoints.Incoming, messageController.deleteMessage);
 module.exports = messageRouter;

@@ -9,4 +9,6 @@ var EndPoints;
     EndPoints["Logout"] = "/logout";
     EndPoints["Get_Message"] = "/";
     EndPoints["Folder"] = "/folder";
+    EndPoints["Incoming"] = "/incoming";
+    EndPoints["Outgoing"] = "/outgoing";
 })(EndPoints = exports.EndPoints || (exports.EndPoints = {}));

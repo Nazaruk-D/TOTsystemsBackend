@@ -62,11 +62,22 @@ class MessageController {
 
     async deleteMessage(req: Request, res: Response) {
         try {
-            return res.status(200).send({message: 'ok'});
+            const { messagesId } = req.body;
+            const { data, error: nullSenderError } = await supabase
+                .from('messages')
+                .delete()
+                .in('id', messagesId);
+
+            if (nullSenderError) {
+                throw nullSenderError;
+            }
+
+            return res.status(200).send({ message: 'Сообщение удалено' });
         } catch (e) {
             return res.status(500).send({message: 'Internal server error'});
         }
     }
+
 }
 
 module.exports = new MessageController()

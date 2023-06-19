@@ -4,5 +4,7 @@ export enum EndPoints {
     Me = '/me',
     Logout = '/logout',
     Get_Message = '/',
-    Folder = '/folder'
+    Folder = '/folder',
+    Incoming = '/incoming',
+    Outgoing = '/outgoing'
 }
