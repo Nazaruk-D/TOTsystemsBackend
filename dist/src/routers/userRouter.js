@@ -4,6 +4,7 @@ const endPoints_1 = require("../enum/endPoints");
 const RouterAuth = require('express');
 const userController = require('../controllers/userController');
 const userRouter = new RouterAuth();
+userRouter.get(`${endPoints_1.EndPoints.Folder}/:userId`, userController.fetchUserFolders);
 userRouter.post(endPoints_1.EndPoints.Folder, userController.createFolder);
-userRouter.delete(endPoints_1.EndPoints.Folder, userController.deleteFolder);
+userRouter.delete(`${endPoints_1.EndPoints.Folder}/:userId/:nameFolder`, userController.deleteFolder);
 module.exports = userRouter;

@@ -1,8 +1,6 @@
-import e, {Request, Response} from "express";
+import {Request, Response} from "express";
 import {supabase} from "../supabase/supabase";
 import {fetchUsersName} from "../utils/fetch/fetchUsersName";
-import {fetchIncomingMessages} from "../utils/fetch/fetchIncomingMessages";
-import {fetchOutgoingMessages} from "../utils/fetch/fetchOutgoingMessages";
 
 const bcrypt = require('bcrypt');
 
