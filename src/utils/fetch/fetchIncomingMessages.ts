@@ -1,7 +1,7 @@
 import {supabase} from "../../supabase/supabase";
 import {formattedMessages} from "../formattedSentMessages";
 
-export async function fetchIncomingMessages(userEmail: number) {
+export async function fetchIncomingMessages(userEmail: string) {
     const {data: incomingMessages, error} = await supabase
         .from('messages')
         .select(

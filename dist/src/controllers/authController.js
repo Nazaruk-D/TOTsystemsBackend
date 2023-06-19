@@ -11,8 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const supabase_1 = require("../supabase/supabase");
 const fetchUsersName_1 = require("../utils/fetch/fetchUsersName");
-const fetchIncomingMessages_1 = require("../utils/fetch/fetchIncomingMessages");
-const fetchOutgoingMessages_1 = require("../utils/fetch/fetchOutgoingMessages");
 const bcrypt = require('bcrypt');
 class AuthController {
     registration(req, res) {
@@ -61,13 +59,10 @@ class AuthController {
                 }
                 res.cookie('user_password', userData.hashed_password, { httpOnly: true });
                 const { name, id, avatar, folders } = userData;
-                const incomingMessages = yield (0, fetchIncomingMessages_1.fetchIncomingMessages)(email);
-                const outgoingMessages = yield (0, fetchOutgoingMessages_1.fetchOutgoingMessages)(email);
-                const messages = { incoming: incomingMessages, outgoing: outgoingMessages };
                 const users = yield (0, fetchUsersName_1.fetchUsersName)();
                 return res.status(200).send({
                     message: 'Успешная аутентификация',
-                    data: { userData: { name, id, avatar, folders }, messages, users }
+                    data: { userData: { name, id, avatar, folders }, users }
                 });
             }
             catch (e) {
@@ -94,13 +89,10 @@ class AuthController {
                 if (!userData) {
                     return res.status(404).json({ message: 'Пользователь не найден', statusCode: 404 });
                 }
-                const incomingMessages = yield (0, fetchIncomingMessages_1.fetchIncomingMessages)(userData.email);
-                const outgoingMessages = yield (0, fetchOutgoingMessages_1.fetchOutgoingMessages)(userData.email);
-                const messages = { incoming: incomingMessages, outgoing: outgoingMessages };
                 const users = yield (0, fetchUsersName_1.fetchUsersName)();
                 return res.status(200).json({
                     message: 'Успешно',
-                    data: { userData, messages, users }
+                    data: { userData, users }
                 });
             }
             catch (e) {

@@ -59,14 +59,11 @@ class AuthController {
 
             res.cookie('user_password', userData.hashed_password, {httpOnly: true});
             const {name, id, avatar, folders} = userData
-            const incomingMessages = await fetchIncomingMessages(email)
-            const outgoingMessages = await fetchOutgoingMessages(email)
-            const messages = {incoming: incomingMessages, outgoing: outgoingMessages}
             const users = await fetchUsersName()
 
             return res.status(200).send({
                 message: 'Успешная аутентификация',
-                data: {userData: {name, id, avatar, folders}, messages, users}
+                data: {userData: {name, id, avatar, folders}, users}
             });
 
         } catch (e) {
@@ -96,13 +93,10 @@ class AuthController {
                 return res.status(404).json({message: 'Пользователь не найден', statusCode: 404});
             }
 
-            const incomingMessages = await fetchIncomingMessages(userData.email)
-            const outgoingMessages = await fetchOutgoingMessages(userData.email)
-            const messages = {incoming: incomingMessages, outgoing: outgoingMessages}
             const users = await fetchUsersName()
             return res.status(200).json({
                 message: 'Успешно',
-                data: {userData, messages, users}
+                data: {userData, users}
             });
         } catch (e) {
             console.error(e);

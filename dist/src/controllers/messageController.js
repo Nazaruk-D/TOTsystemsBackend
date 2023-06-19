@@ -10,13 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supabase_1 = require("../supabase/supabase");
+const fetchIncomingMessages_1 = require("../utils/fetch/fetchIncomingMessages");
+const fetchOutgoingMessages_1 = require("../utils/fetch/fetchOutgoingMessages");
 class MessageController {
     getMessages(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { userId } = req.body;
-                console.log(userId);
-                return res.status(200).send({ message: 'ok' });
+                const { userEmail } = req.params;
+                const incomingMessages = yield (0, fetchIncomingMessages_1.fetchIncomingMessages)(userEmail);
+                const outgoingMessages = yield (0, fetchOutgoingMessages_1.fetchOutgoingMessages)(userEmail);
+                const messages = { incoming: incomingMessages, outgoing: outgoingMessages };
+                return res.status(200).send({ message: 'ok', data: { messages } });
             }
             catch (e) {
                 return res.status(500).send({ message: 'Internal server error' });
@@ -52,7 +56,6 @@ class MessageController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { folder, messagesId } = req.body;
-                console.log(folder, messagesId);
                 const { data, error } = yield supabase_1.supabase
                     .from('messages')
                     .update({ folder })
@@ -61,7 +64,7 @@ class MessageController {
                     console.error(error);
                     return res.status(500).send({ message: `Не удалось переместить сообщения в папку ${folder}` });
                 }
-                return res.status(200).send({ message: 'Сообщение отправлено' });
+                return res.status(200).send({ message: `Сообщения перемещены в папку ${folder}` });
             }
             catch (e) {
                 return res.status(500).send({ message: 'Internal server error' });
