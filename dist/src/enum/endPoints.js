@@ -8,4 +8,5 @@ var EndPoints;
     EndPoints["Me"] = "/me";
     EndPoints["Logout"] = "/logout";
     EndPoints["Get_Message"] = "/";
+    EndPoints["Folder"] = "/folder";
 })(EndPoints = exports.EndPoints || (exports.EndPoints = {}));

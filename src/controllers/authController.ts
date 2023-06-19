@@ -1,7 +1,8 @@
-import {Request, Response} from "express";
+import e, {Request, Response} from "express";
 import {supabase} from "../supabase/supabase";
 import {fetchUsersName} from "../utils/fetch/fetchUsersName";
-import {fetchUserMessages} from "../utils/fetch/fetchUserMessages";
+import {fetchIncomingMessages} from "../utils/fetch/fetchIncomingMessages";
+import {fetchOutgoingMessages} from "../utils/fetch/fetchOutgoingMessages";
 
 const bcrypt = require('bcrypt');
 
@@ -57,14 +58,15 @@ class AuthController {
             }
 
             res.cookie('user_password', userData.hashed_password, {httpOnly: true});
-            const {name, id, avatar} = userData
-
-            const messages = await fetchUserMessages(id)
+            const {name, id, avatar, folders} = userData
+            const incomingMessages = await fetchIncomingMessages(email)
+            const outgoingMessages = await fetchOutgoingMessages(email)
+            const messages = {incoming: incomingMessages, outgoing: outgoingMessages}
             const users = await fetchUsersName()
 
             return res.status(200).send({
                 message: 'Успешная аутентификация',
-                data: {userData: {name, id, avatar}, messages, users}
+                data: {userData: {name, id, avatar, folders}, messages, users}
             });
 
         } catch (e) {
@@ -82,7 +84,7 @@ class AuthController {
 
             const {data: userData, error} = await supabase
                 .from('users')
-                .select('name, email, id, avatar')
+                .select('name, email, id, avatar, folders')
                 .eq('hashed_password', password)
                 .single();
 
@@ -94,9 +96,10 @@ class AuthController {
                 return res.status(404).json({message: 'Пользователь не найден', statusCode: 404});
             }
 
-            const messages = await fetchUserMessages(userData.id)
+            const incomingMessages = await fetchIncomingMessages(userData.email)
+            const outgoingMessages = await fetchOutgoingMessages(userData.email)
+            const messages = {incoming: incomingMessages, outgoing: outgoingMessages}
             const users = await fetchUsersName()
-
             return res.status(200).json({
                 message: 'Успешно',
                 data: {userData, messages, users}

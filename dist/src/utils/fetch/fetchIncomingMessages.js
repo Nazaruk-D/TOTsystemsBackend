@@ -11,27 +11,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchIncomingMessages = void 0;
 const supabase_1 = require("../../supabase/supabase");
-function fetchIncomingMessages(userId) {
+const formattedSentMessages_1 = require("../formattedSentMessages");
+function fetchIncomingMessages(userEmail) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { data: messages, error } = yield supabase_1.supabase
+        const { data: incomingMessages, error } = yield supabase_1.supabase
             .from('messages')
             .select(`
       id,
       message,
       subject,
-      sender:sender_id (id, name, email),
-      recipient:recipient_id (id, name, email),
+      sender:sender_email (id, name, email),
+      recipient:recipient_email (id, name, email),
       folder,
       is_read,
       is_selected,
       created_at
       `)
-            .or(`recipient_id.eq.${userId}`, `sender_id.eq.${userId}`);
+            .eq('recipient_email', userEmail);
         if (error) {
             console.error(error);
             return [];
         }
-        return [...incomingMessage, ...sentMessage];
+        const formattedIncomingMessages = (0, formattedSentMessages_1.formattedMessages)(incomingMessages);
+        return formattedIncomingMessages;
     });
 }
 exports.fetchIncomingMessages = fetchIncomingMessages;

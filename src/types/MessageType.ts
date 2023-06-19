@@ -1,13 +1,19 @@
 export type MessageType = {
-    id: string;
+    id: number;
     message: string;
     subject: string;
-    user: {
-        id: string;
+    sender: {
+        id: number;
         name: string;
+        email: string;
+    };
+    recipient: {
+        id: number;
+        name: string;
+        email: string;
     };
     folder: string;
-    isRead: boolean;
+    is_read: boolean;
+    is_selected?: boolean;
     created_at: string;
-    isSelected?: boolean;
 };

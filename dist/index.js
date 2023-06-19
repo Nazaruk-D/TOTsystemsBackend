@@ -3,6 +3,7 @@ const express = require('express');
 const authRouter = require('./src/routers/authRouter');
 const searchRouter = require('./src/routers/searchRouter');
 const messageRouter = require('./src/routers/messageRouter');
+const userRouter = require('./src/routers/userRouter');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
@@ -24,6 +25,7 @@ app.use(cookieParser('secret key'));
 app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/message', messageRouter);
+app.use('/user', userRouter);
 app.listen(PORT, () => {
     console.log(`I started listening port: ${PORT}`);
 });
