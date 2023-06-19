@@ -8,4 +8,5 @@ messageRouter.get("/:userEmail", messageController.getMessages);
 messageRouter.post("/", messageController.sendMessages);
 messageRouter.put("/", messageController.changeFolderMessages);
 messageRouter.put(endPoints_1.EndPoints.Incoming, messageController.deleteMessage);
+messageRouter.put(endPoints_1.EndPoints.Mark, messageController.markMessages);
 module.exports = messageRouter;

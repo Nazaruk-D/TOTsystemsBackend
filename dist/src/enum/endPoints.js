@@ -10,5 +10,5 @@ var EndPoints;
     EndPoints["Get_Message"] = "/";
     EndPoints["Folder"] = "/folder";
     EndPoints["Incoming"] = "/incoming";
-    EndPoints["Outgoing"] = "/outgoing";
+    EndPoints["Mark"] = "/mark";
 })(EndPoints = exports.EndPoints || (exports.EndPoints = {}));

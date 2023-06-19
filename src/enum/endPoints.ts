@@ -6,5 +6,5 @@ export enum EndPoints {
     Get_Message = '/',
     Folder = '/folder',
     Incoming = '/incoming',
-    Outgoing = '/outgoing'
+    Mark  = '/mark'
 }

@@ -89,5 +89,23 @@ class MessageController {
             }
         });
     }
+    markMessages(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { messagesId } = req.body;
+                const { data, error: nullSenderError } = yield supabase_1.supabase
+                    .from('messages')
+                    .update({ is_read: true })
+                    .in('id', messagesId);
+                if (nullSenderError) {
+                    throw nullSenderError;
+                }
+                return res.status(200).send({ message: 'Сообщение отмечено прочитанным' });
+            }
+            catch (e) {
+                return res.status(500).send({ message: 'Internal server error' });
+            }
+        });
+    }
 }
 module.exports = new MessageController();
