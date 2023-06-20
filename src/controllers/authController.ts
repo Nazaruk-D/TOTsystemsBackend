@@ -108,7 +108,11 @@ class AuthController {
 
     async logout(req: Request, res: Response) {
         try {
-            res.clearCookie('user_password');
+            res.clearCookie('user_password', {
+                sameSite: 'none',
+                secure: true,
+                httpOnly: true,
+            });
             return res.status(200).send({code: 200, message: 'Успешный выход из системы'});
         } catch (e) {
             console.error(e);

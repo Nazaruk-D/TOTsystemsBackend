@@ -109,7 +109,11 @@ class AuthController {
     logout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                res.clearCookie('user_password');
+                res.clearCookie('user_password', {
+                    sameSite: 'none',
+                    secure: true,
+                    httpOnly: true,
+                });
                 return res.status(200).send({ code: 200, message: 'Успешный выход из системы' });
             }
             catch (e) {
