@@ -12,9 +12,9 @@ const app = express()
 dotenv.config();
 
 const corsOptions = {
-    origin: '*',
+    origin: ['http://localhost:3000', 'https://tot-systems.vercel.app'],
     credentials: true,
-    optionSuccessStatus: 200
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
 }
 const jsonBodyMiddleWare = express.json()
 
