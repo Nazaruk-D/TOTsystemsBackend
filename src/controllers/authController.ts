@@ -54,8 +54,12 @@ class AuthController {
             if (!isPasswordValid) {
                 return res.status(401).send({code: 401, message: 'Неправильный email или пароль'});
             }
-
-            res.cookie('user_password', userData.hashed_password, {httpOnly: true});
+            res.cookie('user_password', userData.hashed_password, {
+                expires: new Date(Date.now() + (3600 * 1000 * 24 * 180 * 1)),
+                sameSite: 'none',
+                secure: true,
+                httpOnly: true,
+            })
             const {name, id, avatar, folders} = userData
             const users = await fetchUsersName()
 
