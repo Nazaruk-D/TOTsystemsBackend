@@ -12,10 +12,7 @@ const app = express()
 dotenv.config();
 
 const corsOptions = {
-    origin: (origin: string, callback: Function) => {
-        console.log("origin: ", origin);
-        callback(null, true);
-    },
+    origin: '*',
     credentials: true,
     optionSuccessStatus: 200
 }
