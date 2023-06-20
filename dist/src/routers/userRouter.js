@@ -7,4 +7,5 @@ const userRouter = new RouterAuth();
 userRouter.get(`${endPoints_1.EndPoints.Folder}/:userId`, userController.fetchUserFolders);
 userRouter.post(endPoints_1.EndPoints.Folder, userController.createFolder);
 userRouter.delete(`${endPoints_1.EndPoints.Folder}/:userId/:nameFolder`, userController.deleteFolder);
+userRouter.put(endPoints_1.EndPoints.Name, userController.updateUserName);
 module.exports = userRouter;

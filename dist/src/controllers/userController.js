@@ -106,5 +106,33 @@ class UserController {
             }
         });
     }
+    updateUserName(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { userId, userName } = req.body;
+                const { data, error } = yield supabase_1.supabase
+                    .from('users')
+                    .update({ name: userName })
+                    .eq('id', userId)
+                    .single();
+                if (error) {
+                    return res.status(500).send({ message: 'Ошибка при обновлении имени пользователя' });
+                }
+                const { data: userData, error: fetchError } = yield supabase_1.supabase
+                    .from('users')
+                    .select()
+                    .eq('id', userId)
+                    .single();
+                if (fetchError) {
+                    return res.status(500).send({ message: 'Ошибка при обновлении имени пользователя' });
+                }
+                return res.status(200).send({ code: 200, message: 'Имя пользователя успешно обновлено', data: userData });
+            }
+            catch (error) {
+                console.error(error);
+                return res.status(500).send({ message: 'Внутренняя ошибка сервера' });
+            }
+        });
+    }
 }
 module.exports = new UserController();

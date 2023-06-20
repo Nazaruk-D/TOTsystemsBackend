@@ -11,4 +11,6 @@ var EndPoints;
     EndPoints["Folder"] = "/folder";
     EndPoints["Incoming"] = "/incoming";
     EndPoints["Mark"] = "/mark";
+    EndPoints["Name"] = "/name";
+    EndPoints["Avatar"] = "/avatar";
 })(EndPoints = exports.EndPoints || (exports.EndPoints = {}));

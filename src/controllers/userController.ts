@@ -107,6 +107,37 @@ class UserController {
         }
     }
 
+    async updateUserName (req: Request, res: Response) {
+        try {
+            const { userId, userName } = req.body;
+
+            const { data, error } = await supabase
+                .from('users')
+                .update({ name: userName })
+                .eq('id', userId)
+                .single();
+
+            if (error) {
+                return res.status(500).send({ message: 'Ошибка при обновлении имени пользователя' });
+            }
+
+            const { data: userData, error: fetchError } = await supabase
+                .from('users')
+                .select()
+                .eq('id', userId)
+                .single();
+
+            if (fetchError) {
+                return res.status(500).send({ message: 'Ошибка при обновлении имени пользователя' });
+            }
+
+            return res.status(200).send({ code: 200, message: 'Имя пользователя успешно обновлено', data: userData });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({ message: 'Внутренняя ошибка сервера' });
+        }
+    }
+
 }
 
 module.exports = new UserController();
