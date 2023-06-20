@@ -11,12 +11,9 @@ const PORT = process.env.PORT || 7542;
 const app = express();
 dotenv.config();
 const corsOptions = {
-    origin: (origin, callback) => {
-        console.log("origin: ", origin);
-        callback(null, true);
-    },
+    origin: ['http://localhost:3000', 'https://tot-systems.vercel.app'],
     credentials: true,
-    optionSuccessStatus: 200
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 const jsonBodyMiddleWare = express.json();
 app.use(jsonBodyMiddleWare);
