@@ -24,6 +24,9 @@ export async function fetchOutgoingMessages(userEmail: string) {
         return [];
     }
 
-    const formattedOutgoingMessages = formattedMessages(sentMessages)
+    const formattedOutgoingMessages = await formattedMessages(sentMessages)
+    formattedOutgoingMessages.sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
     return formattedOutgoingMessages;
 }

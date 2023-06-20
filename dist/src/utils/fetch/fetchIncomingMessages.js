@@ -32,7 +32,8 @@ function fetchIncomingMessages(userEmail) {
             console.error(error);
             return [];
         }
-        const formattedIncomingMessages = (0, formattedSentMessages_1.formattedMessages)(incomingMessages);
+        const formattedIncomingMessages = yield (0, formattedSentMessages_1.formattedMessages)(incomingMessages);
+        formattedIncomingMessages.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         return formattedIncomingMessages;
     });
 }

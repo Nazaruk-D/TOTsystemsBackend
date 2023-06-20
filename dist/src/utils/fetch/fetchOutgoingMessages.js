@@ -32,7 +32,8 @@ function fetchOutgoingMessages(userEmail) {
             console.error(error);
             return [];
         }
-        const formattedOutgoingMessages = (0, formattedSentMessages_1.formattedMessages)(sentMessages);
+        const formattedOutgoingMessages = yield (0, formattedSentMessages_1.formattedMessages)(sentMessages);
+        formattedOutgoingMessages.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         return formattedOutgoingMessages;
     });
 }

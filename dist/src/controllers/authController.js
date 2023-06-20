@@ -62,7 +62,7 @@ class AuthController {
                 const users = yield (0, fetchUsersName_1.fetchUsersName)();
                 return res.status(200).send({
                     message: 'Успешная аутентификация',
-                    data: { userData: { name, id, avatar, folders }, users }
+                    data: { userData: { name, email, id, avatar, folders }, users }
                 });
             }
             catch (e) {
